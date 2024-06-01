@@ -1,0 +1,180 @@
+[gd_scene load_steps=4 format=3 uid="uid://b78pvtbmqfxb8"]
+
+[ext_resource type="Script" path="res://Scripts/game.gd" id="1_85ay0"]
+[ext_resource type="PackedScene" uid="uid://dkishjne3o4xg" path="res://Scenes/BoardPieces/board.tscn" id="1_bdg8l"]
+[ext_resource type="PackedScene" uid="uid://dbnha4yeun24" path="res://Scenes/BoardPieces/DicePanel.tscn" id="2_ft8uv"]
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_85ay0")
+
+[node name="PlayerBoard" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -200.0
+offset_right = 350.0
+offset_bottom = 200.0
+grow_vertical = 2
+
+[node name="Board" parent="PlayerBoard" instance=ExtResource("1_bdg8l")]
+layout_mode = 2
+
+[node name="OpponentBoard" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -200.0
+offset_bottom = 200.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Board" parent="OpponentBoard" instance=ExtResource("1_bdg8l")]
+layout_mode = 2
+
+[node name="PlayerPan" parent="." instance=ExtResource("2_ft8uv")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 106.0
+offset_top = -108.0
+offset_right = 206.0
+offset_bottom = -8.0
+grow_vertical = 0
+
+[node name="OpponentPan" parent="." instance=ExtResource("2_ft8uv")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -209.0
+offset_top = -115.0
+offset_right = -109.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="TurnLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 927.0
+offset_top = 168.0
+offset_right = 1016.0
+offset_bottom = 191.0
+text = "Player Turn"
+
+[node name="ColA" type="Label" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 248.0
+offset_right = 64.0
+offset_bottom = 271.0
+text = "---"
+horizontal_alignment = 1
+
+[node name="ColB" type="Label" parent="."]
+layout_mode = 0
+offset_left = 141.0
+offset_top = 248.0
+offset_right = 181.0
+offset_bottom = 271.0
+text = "---"
+horizontal_alignment = 1
+
+[node name="ColC" type="Label" parent="."]
+layout_mode = 0
+offset_left = 283.0
+offset_top = 249.0
+offset_right = 323.0
+offset_bottom = 272.0
+text = "---"
+horizontal_alignment = 1
+
+[node name="ColA2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1593.0
+offset_top = 242.0
+offset_right = 1633.0
+offset_bottom = 265.0
+text = "---"
+horizontal_alignment = 1
+
+[node name="ColB2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1731.0
+offset_top = 242.0
+offset_right = 1771.0
+offset_bottom = 265.0
+text = "---"
+horizontal_alignment = 1
+
+[node name="ColC2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1860.0
+offset_top = 242.0
+offset_right = 1900.0
+offset_bottom = 265.0
+text = "---"
+horizontal_alignment = 1
+
+[node name="PlayerScore" type="Label" parent="."]
+layout_mode = 0
+offset_left = 146.0
+offset_top = 170.0
+offset_right = 186.0
+offset_bottom = 193.0
+
+[node name="OpponentScore" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1726.0
+offset_top = 163.0
+offset_right = 1766.0
+offset_bottom = 186.0
+
+[node name="RetryButton" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 912.0
+offset_top = 657.0
+offset_right = 963.0
+offset_bottom = 688.0
+text = "Reset"
+
+[node name="NextRoundButton" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 896.0
+offset_top = 689.0
+offset_right = 996.0
+offset_bottom = 720.0
+text = "Next Round"
+
+[node name="php" type="Label" parent="."]
+layout_mode = 0
+offset_left = 537.0
+offset_top = 431.0
+offset_right = 620.0
+offset_bottom = 454.0
+text = "Player HP: "
+
+[node name="ohp" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1241.0
+offset_top = 429.0
+offset_right = 1324.0
+offset_bottom = 452.0
+text = "Opponent HP: "

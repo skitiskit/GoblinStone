@@ -1,0 +1,76 @@
+[gd_scene load_steps=4 format=3 uid="uid://b78pvtbmqfxb8"]
+
+[ext_resource type="Script" path="res://Scripts/game.gd" id="1_85ay0"]
+[ext_resource type="PackedScene" uid="uid://dkishjne3o4xg" path="res://Scenes/BoardPieces/board.tscn" id="1_bdg8l"]
+[ext_resource type="PackedScene" uid="uid://dbnha4yeun24" path="res://Scenes/BoardPieces/DicePanel.tscn" id="2_ft8uv"]
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_85ay0")
+
+[node name="PlayerBoard" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -200.0
+offset_right = 350.0
+offset_bottom = 200.0
+grow_vertical = 2
+
+[node name="Board" parent="PlayerBoard" instance=ExtResource("1_bdg8l")]
+layout_mode = 2
+
+[node name="OpponentBoard" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -200.0
+offset_bottom = 200.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Board" parent="OpponentBoard" instance=ExtResource("1_bdg8l")]
+layout_mode = 2
+
+[node name="PlayerPan" parent="." instance=ExtResource("2_ft8uv")]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 106.0
+offset_top = -108.0
+offset_right = 206.0
+offset_bottom = -8.0
+grow_vertical = 0
+
+[node name="OpponentPan" parent="." instance=ExtResource("2_ft8uv")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -209.0
+offset_top = -115.0
+offset_right = -109.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="TurnLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 31.0
+offset_right = 536.0
+offset_bottom = 54.0
+text = "Player Turn"

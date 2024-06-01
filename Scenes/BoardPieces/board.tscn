@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkishjne3o4xg"]
+
+[ext_resource type="Script" path="res://Scripts/BoardScripts/board.gd" id="1_dbefa"]
+
+[sub_resource type="Theme" id="Theme_0dcfd"]
+
+[node name="Board" type="GridContainer"]
+theme = SubResource("Theme_0dcfd")
+theme_override_constants/h_separation = 25
+theme_override_constants/v_separation = 25
+columns = 3
+script = ExtResource("1_dbefa")
