@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbnha4yeun24"]
+[gd_scene load_steps=11 format=3 uid="uid://dbnha4yeun24"]
 
 [ext_resource type="Script" path="res://Scripts/BoardScripts/DicePanel.gd" id="1_fweb7"]
+[ext_resource type="Texture2D" uid="uid://qdpuy6grplu5" path="res://Assets/D6-Sprites-Sheet.png" id="2_6utb0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tf2lk"]
 bg_color = Color(0.5244, 0.6, 0.438, 1)
@@ -9,6 +10,56 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i64ky"]
+atlas = ExtResource("2_6utb0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fltxe"]
+atlas = ExtResource("2_6utb0")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qpj26"]
+atlas = ExtResource("2_6utb0")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xbpdk"]
+atlas = ExtResource("2_6utb0")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lgvh5"]
+atlas = ExtResource("2_6utb0")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ou00b"]
+atlas = ExtResource("2_6utb0")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bxet2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i64ky")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fltxe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qpj26")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xbpdk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lgvh5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ou00b")
+}],
+"loop": true,
+"name": &"diceroll",
+"speed": 5.0
+}]
 
 [node name="Panel" type="Panel"]
 custom_minimum_size = Vector2(100, 100)
@@ -21,6 +72,12 @@ script = ExtResource("1_fweb7")
 layout_mode = 0
 offset_right = 100.0
 offset_bottom = 100.0
-text = "---"
+
+[node name="dicesprite" type="AnimatedSprite2D" parent="Button"]
+visible = false
+position = Vector2(49, 49)
+scale = Vector2(3.12732, 3.16189)
+sprite_frames = SubResource("SpriteFrames_bxet2")
+animation = &"diceroll"
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
