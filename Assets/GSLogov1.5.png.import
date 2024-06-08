@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c54p3ylhw62sc"
-path="res://.godot/imported/goblinstonefakelogo.png-2b7d95d704eaa47c7c05aa534c98d27f.ctex"
+uid="uid://d01hhk4jlkw34"
+path="res://.godot/imported/GSLogov1.5.png-cf6a14c96604192fe064f09ec5ead31a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/goblinstonefakelogo.png"
-dest_files=["res://.godot/imported/goblinstonefakelogo.png-2b7d95d704eaa47c7c05aa534c98d27f.ctex"]
+source_file="res://Assets/GSLogov1.5.png"
+dest_files=["res://.godot/imported/GSLogov1.5.png-cf6a14c96604192fe064f09ec5ead31a.ctex"]
 
 [params]
 

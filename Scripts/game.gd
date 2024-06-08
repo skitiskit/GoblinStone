@@ -52,7 +52,7 @@ var coin_flip: int
 var player_die
 var opponent_die
 
-@export var  player_hp: int = 150
+var player_hp = Global.player_hp
 @export var opponent_hp: int = 150
 
 
@@ -264,16 +264,28 @@ func _hp_update(player,opp):
 	if diff >= 0:
 		opponent_hp = opponent_hp - diff
 		if opponent_hp <= 0:
-			_game_over("win")
+			_game_over("Win")
 			$php.text = ("Player HP:" + str(player_hp))
 			$ohp.text = ("Opponent HP:" + str(opponent_hp))
+			
+			await get_tree().create_timer(2).timeout
+			
+			Global.goto_scene("res://Scenes/map_scene.tscn")
 			return
 	elif diff <= 0:
 		player_hp = player_hp + diff
+		Global.player_hp = player_hp
 		if player_hp <= 0:
-			_game_over("lose")
+			_game_over("Lose")
 			$php.text = ("Player HP:" + str(player_hp))
 			$ohp.text = ("Opponent HP:" + str(opponent_hp))
+			
+			Global.player_hp = 150
+			
+			await get_tree().create_timer(2).timeout
+			
+			Global.goto_scene("res://Scenes/start_menu.tscn")
+			
 			return
 	$php.text = ("Player HP:" + str(player_hp))
 	$ohp.text = ("Opponent HP:" + str(opponent_hp))

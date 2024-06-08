@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cmv45gg6uk1md"]
+[gd_scene load_steps=5 format=3 uid="uid://cmv45gg6uk1md"]
 
-[ext_resource type="Texture2D" uid="uid://d07ob1whenylu" path="res://Assets/goblinstonefakelogo.png" id="1_00e0t"]
 [ext_resource type="Script" path="res://Scripts/StartMenu/Quit.gd" id="2_fxok1"]
+[ext_resource type="Texture2D" uid="uid://d01hhk4jlkw34" path="res://Assets/GSLogov1.5.png" id="2_gdehl"]
 [ext_resource type="Script" path="res://Scripts/StartMenu/Start.gd" id="2_rwfpr"]
+[ext_resource type="Texture2D" uid="uid://dkoor4t17bbu7" path="res://Assets/GoblinA1.png" id="4_n0mig"]
 
 [node name="StartMenu" type="Control"]
 layout_mode = 3
@@ -29,7 +30,8 @@ grow_vertical = 2
 
 [node name="TextureRect" type="TextureRect" parent="VSplitContainer2"]
 layout_mode = 2
-texture = ExtResource("1_00e0t")
+texture = ExtResource("2_gdehl")
+expand_mode = 5
 
 [node name="VSplitContainer" type="VSplitContainer" parent="VSplitContainer2"]
 layout_mode = 2
@@ -46,6 +48,11 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Quit"
 script = ExtResource("2_fxok1")
+
+[node name="GoblinA1" type="Sprite2D" parent="."]
+position = Vector2(970, 408)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_n0mig")
 
 [connection signal="pressed" from="VSplitContainer2/VSplitContainer/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="VSplitContainer2/VSplitContainer/Quit" to="VSplitContainer2/VSplitContainer/Quit" method="_on_pressed"]

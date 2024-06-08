@@ -1,0 +1,167 @@
+[gd_scene load_steps=5 format=3 uid="uid://by54522p728yp"]
+
+[ext_resource type="Script" path="res://Scripts/MapScripts/map_scene.gd" id="1_i7jib"]
+[ext_resource type="Texture2D" uid="uid://bxtj357jkgc16" path="res://Assets/1000_F_702604450_t14IuGZyjnU3tTx2gv0fJoKILUGYlGrF.jpg" id="1_u0e0m"]
+[ext_resource type="Texture2D" uid="uid://dkoor4t17bbu7" path="res://Assets/GoblinA1.png" id="2_a7cf4"]
+[ext_resource type="Texture2D" uid="uid://qdpuy6grplu5" path="res://Assets/D6-Sprites-Sheet.png" id="4_xr31q"]
+
+[node name="MapScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i7jib")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(1.92302, 1.92034)
+texture = ExtResource("1_u0e0m")
+
+[node name="StatusMenu" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -133.0
+offset_top = -154.0
+offset_right = -75.9999
+offset_bottom = -123.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(2.19053, 2.06302)
+text = "Status
+"
+
+[node name="Quit" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1790.0
+offset_top = 999.0
+offset_right = 1832.0
+offset_bottom = 1030.0
+scale = Vector2(2.83843, 2.09252)
+text = "Quit"
+
+[node name="Level1" type="Button" parent="."]
+layout_mode = 0
+offset_left = 459.0
+offset_top = 766.0
+offset_right = 499.0
+offset_bottom = 806.0
+scale = Vector2(-2.92503, 3.34976)
+icon = ExtResource("2_a7cf4")
+
+[node name="Level2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 749.0
+offset_top = 771.0
+offset_right = 789.0
+offset_bottom = 811.0
+scale = Vector2(-2.92503, 3.34976)
+icon = ExtResource("2_a7cf4")
+
+[node name="Level3" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1039.0
+offset_top = 768.0
+offset_right = 1079.0
+offset_bottom = 808.0
+scale = Vector2(-2.92503, 3.34976)
+icon = ExtResource("2_a7cf4")
+
+[node name="Level4" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1331.0
+offset_top = 763.0
+offset_right = 1371.0
+offset_bottom = 803.0
+scale = Vector2(-2.92503, 3.34976)
+icon = ExtResource("2_a7cf4")
+
+[node name="Level5" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1613.0
+offset_top = 770.0
+offset_right = 1653.0
+offset_bottom = 810.0
+scale = Vector2(-2.92503, 3.34976)
+icon = ExtResource("2_a7cf4")
+
+[node name="StatusPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -373.0
+offset_top = -370.0
+offset_right = 377.0
+offset_bottom = 380.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CharacterModel" type="Sprite2D" parent="StatusPanel"]
+position = Vector2(202, 86)
+scale = Vector2(3.59879, 3.55174)
+texture = ExtResource("2_a7cf4")
+
+[node name="HP" type="Label" parent="StatusPanel"]
+layout_mode = 0
+offset_left = 282.0
+offset_top = 55.0
+offset_right = 328.0
+offset_bottom = 78.0
+scale = Vector2(1.85736, 1.76883)
+text = "HP: ---"
+
+[node name="DiceDeck" type="ItemList" parent="StatusPanel"]
+layout_mode = 0
+offset_left = 163.0
+offset_top = 160.0
+offset_right = 413.0
+offset_bottom = 410.0
+scale = Vector2(1.75, 1.593)
+max_text_lines = 9
+item_count = 9
+item_0/text = "1D6"
+item_0/icon = ExtResource("4_xr31q")
+item_1/text = "1D6"
+item_1/icon = ExtResource("4_xr31q")
+item_2/text = "1D6"
+item_2/icon = ExtResource("4_xr31q")
+item_3/text = "1D6"
+item_3/icon = ExtResource("4_xr31q")
+item_4/text = "1D6"
+item_4/icon = ExtResource("4_xr31q")
+item_5/text = "1D6"
+item_5/icon = ExtResource("4_xr31q")
+item_6/text = "1D6"
+item_6/icon = ExtResource("4_xr31q")
+item_7/text = "1D6"
+item_7/icon = ExtResource("4_xr31q")
+item_8/text = "1D6"
+item_8/icon = ExtResource("4_xr31q")
+
+[node name="WinLoss" type="Label" parent="StatusPanel"]
+layout_mode = 0
+offset_left = 286.0
+offset_top = 101.0
+offset_right = 363.0
+offset_bottom = 124.0
+scale = Vector2(1.37038, 1.77483)
+text = "W: --- L: ---"
+
+[connection signal="pressed" from="StatusMenu" to="." method="_on_status_menu_pressed"]
+[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Level1" to="." method="_on_level_1_pressed"]
+[connection signal="pressed" from="Level2" to="." method="_on_level_2_pressed"]
+[connection signal="pressed" from="Level3" to="." method="_on_level_3_pressed"]
+[connection signal="pressed" from="Level4" to="." method="_on_level_4_pressed"]
+[connection signal="pressed" from="Level5" to="." method="_on_level_5_pressed"]
