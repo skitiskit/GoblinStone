@@ -268,6 +268,8 @@ func _hp_update(player,opp):
 			$php.text = ("Player HP:" + str(player_hp))
 			$ohp.text = ("Opponent HP:" + str(opponent_hp))
 			
+			Global.player_progress = Global.player_progress +1
+			
 			await get_tree().create_timer(2).timeout
 			
 			Global.goto_scene("res://Scenes/map_scene.tscn")
@@ -281,6 +283,7 @@ func _hp_update(player,opp):
 			$ohp.text = ("Opponent HP:" + str(opponent_hp))
 			
 			Global.player_hp = 150
+			Global.player_progress = 0
 			
 			await get_tree().create_timer(2).timeout
 			
@@ -344,3 +347,7 @@ func _reset_boards():
 func _disable_bad_buttons():
 	playerPan.disabled = true
 	opponentPan.disabled = true
+
+
+func _on_cheat_pressed():
+	_hp_update(150,0)

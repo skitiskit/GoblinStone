@@ -1,5 +1,12 @@
 extends Control
 
+@onready var level_status = {0:$Level1,1:$Level2,2:$Level3,3:$Level4,4:$Level5}
+
+func _ready():
+	for key in [0,1,2,3,4]:
+		if key == Global.player_progress:
+			level_status[key].visible = !level_status[key].visible
+	
 func _on_status_menu_pressed():
 	$StatusPanel.visible = !$StatusPanel.visible
 	$StatusPanel/HP.text = "HP: " + str(Global.player_hp)

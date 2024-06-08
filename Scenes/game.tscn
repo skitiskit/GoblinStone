@@ -188,3 +188,13 @@ offset_top = 183.0
 offset_right = 1303.0
 offset_bottom = 206.0
 text = "Opponent HP: "
+
+[node name="Cheat" type="Button" parent="."]
+layout_mode = 0
+offset_left = 195.0
+offset_top = 126.0
+offset_right = 254.0
+offset_bottom = 157.0
+text = "CHEAT"
+
+[connection signal="pressed" from="Cheat" to="." method="_on_cheat_pressed"]
