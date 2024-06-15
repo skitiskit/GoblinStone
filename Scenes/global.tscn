@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://pvt0f3eklbmn"]
+[gd_scene load_steps=4 format=3 uid="uid://pvt0f3eklbmn"]
 
 [ext_resource type="Script" path="res://Scripts/global.gd" id="1_k466k"]
+[ext_resource type="Script" path="res://Scripts/PlayerData.gd" id="2_jh703"]
+[ext_resource type="Script" path="res://Scripts/Dice.gd" id="3_ckfry"]
 
 [node name="Global" type="Node"]
 script = ExtResource("1_k466k")
+
+[node name="PlayerData" type="Node" parent="."]
+script = ExtResource("2_jh703")
+
+[node name="Dice" type="Node" parent="."]
+script = ExtResource("3_ckfry")

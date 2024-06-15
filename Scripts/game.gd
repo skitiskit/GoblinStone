@@ -52,7 +52,7 @@ var coin_flip: int
 var player_die
 var opponent_die
 
-var player_hp = Global.player_hp
+var player_hp = PlayerData.player_hp
 @export var opponent_hp: int = 150
 
 
@@ -91,7 +91,7 @@ func _turn_update():
 		else:
 			player_turn = true
 			_toggle_opp_action()
-		_dice_roll()
+		_dice_roll(Dice.d4)
 	else:
 		if player_turn == true:
 			turn.text = "Opponent Turn"
@@ -99,23 +99,23 @@ func _turn_update():
 			_toggle_opp_action()
 			player_turn = false
 			playerDieSprite.visible = false
-			_dice_roll()
+			_dice_roll(Dice.d4)
 		else:
 			turn.text = "Player Turn"
 			_toggle_opp_action()
 			_toggle_player_action()
 			player_turn = true
 			opponentDieSprite.visible = false
-			_dice_roll()
+			_dice_roll(Dice.d4)
 
 #rolls 1d6 - prints value current players pan - if opp. wait 1.5s then take their turn
-func _dice_roll():
+func _dice_roll(dice):
 	if player_turn == true:
-		player_die = randi_range(1,6)
+		player_die = dice.pick_random()
 		playerDieSprite.set_frame(player_die-1)
 		playerDieSprite.visible = true
 	else:
-		opponent_die = randi_range(1,6)
+		opponent_die = dice.pick_random()
 		opponentDieSprite.set_frame(opponent_die-1)
 		opponentDieSprite.visible = true
 		
@@ -268,7 +268,12 @@ func _hp_update(player,opp):
 			$php.text = ("Player HP:" + str(player_hp))
 			$ohp.text = ("Opponent HP:" + str(opponent_hp))
 			
-			Global.player_progress = Global.player_progress +1
+			PlayerData.player_progress = PlayerData.player_progress +1
+			PlayerData.wins = PlayerData.wins + 1
+			
+			if PlayerData.wins == 5:
+				_you_are_the_best()
+				return
 			
 			await get_tree().create_timer(2).timeout
 			
@@ -276,14 +281,14 @@ func _hp_update(player,opp):
 			return
 	elif diff <= 0:
 		player_hp = player_hp + diff
-		Global.player_hp = player_hp
+		PlayerData.player_hp = player_hp
 		if player_hp <= 0:
 			_game_over("Lose")
 			$php.text = ("Player HP:" + str(player_hp))
 			$ohp.text = ("Opponent HP:" + str(opponent_hp))
 			
-			Global.player_hp = 150
-			Global.player_progress = 0
+			PlayerData.player_hp = 150
+			PlayerData.player_progress = 0
 			
 			await get_tree().create_timer(2).timeout
 			
@@ -348,6 +353,11 @@ func _disable_bad_buttons():
 	playerPan.disabled = true
 	opponentPan.disabled = true
 
-
+func _you_are_the_best():
+	$BestButton.visible = true
+	
 func _on_cheat_pressed():
 	_hp_update(150,0)
+
+func _on_best_button_pressed():
+	Global.goto_scene("res://Scenes/start_menu.tscn")

@@ -18,6 +18,8 @@ config/features=PackedStringArray("4.2", "Forward Plus")
 
 Global="*res://Scenes/global.tscn"
 GlobalData="*res://Scripts/global.gd"
+PlayerData="*res://Scripts/PlayerData.gd"
+Dice="*res://Scripts/Dice.gd"
 
 [display]
 

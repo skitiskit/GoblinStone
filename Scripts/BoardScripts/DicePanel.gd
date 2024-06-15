@@ -6,4 +6,4 @@ func _on_button_pressed():
 	emit_signal("selected", self.name)
 
 func _dice_roll():
-	$dicesprite.play("diceroll")
+	Dice.d6_sprite.play("roll")

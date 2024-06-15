@@ -75,6 +75,7 @@ offset_bottom = 100.0
 
 [node name="dicesprite" type="AnimatedSprite2D" parent="Button"]
 visible = false
+texture_filter = 1
 position = Vector2(49, 49)
 scale = Vector2(3.12732, 3.16189)
 sprite_frames = SubResource("SpriteFrames_bxet2")

@@ -47,55 +47,50 @@ offset_bottom = 1030.0
 scale = Vector2(2.83843, 2.09252)
 text = "Quit"
 
-[node name="Level1" type="Button" parent="."]
-visible = false
+[node name="Level1" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = 459.0
-offset_top = 766.0
-offset_right = 499.0
-offset_bottom = 806.0
+offset_left = 434.001
+offset_top = 795.0
+offset_right = 474.001
+offset_bottom = 835.0
 scale = Vector2(-2.92503, 3.34976)
-icon = ExtResource("2_a7cf4")
+texture_normal = ExtResource("2_a7cf4")
 
-[node name="Level2" type="Button" parent="."]
-visible = false
+[node name="Level2" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = 749.0
-offset_top = 771.0
-offset_right = 789.0
-offset_bottom = 811.0
+offset_left = 724.001
+offset_top = 800.0
+offset_right = 764.001
+offset_bottom = 840.0
 scale = Vector2(-2.92503, 3.34976)
-icon = ExtResource("2_a7cf4")
+texture_normal = ExtResource("2_a7cf4")
 
-[node name="Level3" type="Button" parent="."]
-visible = false
+[node name="Level3" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = 1039.0
-offset_top = 768.0
-offset_right = 1079.0
-offset_bottom = 808.0
+offset_left = 1014.0
+offset_top = 797.0
+offset_right = 1054.0
+offset_bottom = 837.0
 scale = Vector2(-2.92503, 3.34976)
-icon = ExtResource("2_a7cf4")
+texture_normal = ExtResource("2_a7cf4")
 
-[node name="Level4" type="Button" parent="."]
-visible = false
+[node name="Level4" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = 1331.0
-offset_top = 763.0
-offset_right = 1371.0
-offset_bottom = 803.0
+offset_left = 1306.0
+offset_top = 792.0
+offset_right = 1346.0
+offset_bottom = 832.0
 scale = Vector2(-2.92503, 3.34976)
-icon = ExtResource("2_a7cf4")
+texture_normal = ExtResource("2_a7cf4")
 
-[node name="Level5" type="Button" parent="."]
-visible = false
+[node name="Level5" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = 1613.0
-offset_top = 770.0
-offset_right = 1653.0
-offset_bottom = 810.0
+offset_left = 1588.0
+offset_top = 799.0
+offset_right = 1628.0
+offset_bottom = 839.0
 scale = Vector2(-2.92503, 3.34976)
-icon = ExtResource("2_a7cf4")
+texture_normal = ExtResource("2_a7cf4")
 
 [node name="StatusPanel" type="Panel" parent="."]
 visible = false
@@ -113,6 +108,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="CharacterModel" type="Sprite2D" parent="StatusPanel"]
+texture_filter = 1
 position = Vector2(202, 86)
 scale = Vector2(3.59879, 3.55174)
 texture = ExtResource("2_a7cf4")
@@ -154,14 +150,14 @@ item_7/icon = ExtResource("4_xr31q")
 item_8/text = "1D6"
 item_8/icon = ExtResource("4_xr31q")
 
-[node name="WinLoss" type="Label" parent="StatusPanel"]
+[node name="Wins" type="Label" parent="StatusPanel"]
 layout_mode = 0
 offset_left = 286.0
 offset_top = 101.0
 offset_right = 363.0
 offset_bottom = 124.0
 scale = Vector2(1.37038, 1.77483)
-text = "W: --- L: ---"
+text = "Wins: ---"
 
 [connection signal="pressed" from="StatusMenu" to="." method="_on_status_menu_pressed"]
 [connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
