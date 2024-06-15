@@ -7,8 +7,9 @@ var weighted_d4 = [1,2,3,3,4,4]
 var d6_sprite_sheet = load("res://Assets/D6-Sprites-Sheet.png")
 
 func _ready() -> void:
-	anim_sprites(d6_sprite_sheet,"d6")
-	anim_sprites(d6_sprite_sheet,"d4")
+
+	anim_sprites(d6_sprite_sheet,"d6_sprite")
+	anim_sprites(d6_sprite_sheet,"d4_sprite")
 
 
 func anim_sprites(resource,sprite_name):
