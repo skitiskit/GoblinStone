@@ -124,15 +124,20 @@ func _coin_flip():
 		player_turn = true
 
 func _inv_board_update():
+	print("inv update")
 	for key in playerInvSprites:
-		if player_dice.size() >= key:
+		print(str(player_dice.size()) + "dicesize")
+		if player_dice.size()-1 > key or player_dice.size()-1 == key:
+			print(str(key) + "key visible")
 			playerInvSprites[key].set_frame(5)
 			playerInvSprites[key].visible = true
 		else:
+			print(str(key) + "key invisible")
 			playerInvSprites[key].visible = false
 
 #checks if player_turn is defined, if not, checks for coin_flip value and sets turn.
 func _turn_update():
+	_inv_board_update()
 	if player_turn == null:
 		_coin_flip()
 	else:
@@ -142,14 +147,16 @@ func _turn_update():
 			#_toggle_opp_action()
 			player_turn = false
 			playerDieSprite.visible = false
-			_dice_roll(player_dice[0])
+			if round_over == false:
+				_dice_roll(player_dice[0])
 		else:
 			turn.text = "Player Turn"
 			#_toggle_opp_action()
 			_toggle_player_action()
 			player_turn = true
 			opponentDieSprite.visible = false
-			_dice_roll(player_dice[0])
+			if round_over == false:
+				_dice_roll(player_dice[0])
 
 #rolls 1d6 - prints value current players pan - if opp. wait 1.5s then take their turn
 func _dice_roll(dice):
@@ -182,16 +189,13 @@ func _onGridUpdate(key):
 		_check_overlap(key, player_die)
 		_board_update("player")
 		player_dice.remove_at(0)
-		_inv_board_update()
-		if round_over == false:
-			_turn_update()
+		_turn_update()
 		
 	elif player_turn == false:
 		oppBoardState[key]=opponent_die
 		_check_overlap(key, opponent_die)
 		_board_update("opp")
-		if round_over == false:
-			_turn_update()
+		_turn_update()
 
 #updates the board visuals
 func _board_update(who):
@@ -209,6 +213,7 @@ func _board_update(who):
 				oppBoardSprites[key].visible = true
 			elif oppBoardState[key] == 0:
 				oppBoardSprites[key].visible = false
+	_inv_board_update()
 
 #loop through the playerBoardState and disable buttons, for all filled values increment counter
 #on counter reaching 9 board if full, trigger round over
@@ -233,19 +238,6 @@ func _toggle_player_action():
 				oppBoardFull += 1
 		if (oppBoardFull == 9):
 			_on_round_over()
-
-#loop through the playerBoardState and disable buttons, for all filled values increment counter
-#on counter reaching 9 board if full, trigger round over
-#func _toggle_opp_action():
-	#var oppBoardFull = 0
-	#for key in oppBoardButtons:
-		#if (oppBoardState[key] == 0):
-			#oppBoardButtons[key].disabled = !oppBoardButtons[key].disabled
-		#else:
-			#oppBoardButtons[key].disabled = true
-			#oppBoardFull += 1
-	#if (oppBoardFull == 9):
-		#_on_round_over()
 
 #toggles round over bool, clears the die for both players, runs score check
 func _on_round_over():
