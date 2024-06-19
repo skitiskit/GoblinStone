@@ -124,15 +124,11 @@ func _coin_flip():
 		player_turn = true
 
 func _inv_board_update():
-	print("inv update")
 	for key in playerInvSprites:
-		print(str(player_dice.size()) + "dicesize")
 		if player_dice.size()-1 > key or player_dice.size()-1 == key:
-			print(str(key) + "key visible")
 			playerInvSprites[key].set_frame(5)
 			playerInvSprites[key].visible = true
 		else:
-			print(str(key) + "key invisible")
 			playerInvSprites[key].visible = false
 
 #checks if player_turn is defined, if not, checks for coin_flip value and sets turn.
