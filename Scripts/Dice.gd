@@ -4,6 +4,7 @@ var d6 = [1,2,3,4,5,6]
 var d4 = [1,2,3,4]
 var weighted_d6 = [1,2,3,4,4,5,5,6,6]
 var weighted_d4 = [1,2,3,3,4,4]
+var unlucky_d6 = [1,1,2,2,3,3,4,5,6]
 var d6_sprite_sheet = load("res://Assets/D6-Sprites-Sheet.png")
 
 func _ready() -> void:

@@ -84,10 +84,10 @@ extends Control
 #game variables
 var player_turn = null
 var round_over = false
-var coin_flip: int
+
 
 var player_die: int
-var player_dice = PlayerData.player_inventory
+var player_dice: Array = PlayerData.player_inventory.duplicate(true)
 var opponent_die: int
 
 var player_hp = PlayerData.player_hp
@@ -105,8 +105,13 @@ var player_hp = PlayerData.player_hp
 func _ready():
 	_disable_bad_buttons()
 	_inv_board_update()
-	_coin_flip()
-		
+	
+	$StateMachine/playerturn.connect("update_die",_update_die)
+	$StateMachine/opponentturn.connect("update_die",_update_die)
+	$StateMachine/playerturn.connect("turn_track",_turn_track)
+	$StateMachine/opponentturn.connect("turn_track",_turn_track)
+	$StateMachine/playerturn.connect("toggle_action",_toggle_player_action)
+	
 	$PlayerBoard/Board.connect("gridUpdate",_onGridUpdate)
 	$OpponentBoard/Board.connect("gridUpdate",_onGridUpdate)
 	
@@ -115,13 +120,15 @@ func _ready():
 	
 	_turn_update()
 
-#flips a coin 0 heads, 1 tails
-func _coin_flip():
-	coin_flip = randi_range(0,1)
-	if coin_flip != 0:
-		player_turn = false
-	else:
+func _turn_track(player):
+	if player == "player":
+		print("player turn")
 		player_turn = true
+		_toggle_player_action()
+	else:
+		print("opponent turn")
+		player_turn = false
+		_toggle_player_action()
 
 func _inv_board_update():
 	for key in playerInvSprites:
@@ -134,42 +141,33 @@ func _inv_board_update():
 #checks if player_turn is defined, if not, checks for coin_flip value and sets turn.
 func _turn_update():
 	_inv_board_update()
-	if player_turn == null:
-		_coin_flip()
-	else:
-		if player_turn == true:
-			turn.text = "Opponent Turn"
-			_toggle_player_action()
-			#_toggle_opp_action()
-			player_turn = false
-			playerDieSprite.visible = false
-			if round_over == false:
-				_dice_roll(player_dice[0])
-		else:
-			turn.text = "Player Turn"
-			#_toggle_opp_action()
-			_toggle_player_action()
-			player_turn = true
-			opponentDieSprite.visible = false
-			if round_over == false:
-				_dice_roll(player_dice[0])
-
-#rolls 1d6 - prints value current players pan - if opp. wait 1.5s then take their turn
-func _dice_roll(dice):
-	var dice_type = Dice.get(dice)
 	if player_turn == true:
-		player_die = dice_type.pick_random()
-		playerDieSprite.set_frame(player_die-1)
+		turn.text = "Opponent Turn"
+		_toggle_player_action()
+		#_toggle_opp_action()
+		player_turn = false
+		playerDieSprite.visible = false
+		#if round_over == false:
+			#_dice_roll(player_dice[0])
+	else:
+		turn.text = "Player Turn"
+		#_toggle_opp_action()
+		_toggle_player_action()
+		player_turn = true
+		opponentDieSprite.visible = false
+		#if round_over == false:
+			#_dice_roll(player_dice[0])
+
+#updates players current die var and the pan with dice_roll result from PlayerStates
+func _update_die(player,die):
+	if player == "player":
+		player_die = die
+		playerDieSprite.set_frame(die-1)
 		playerDieSprite.visible = true
 	else:
-		opponent_die = dice_type.pick_random()
-		opponentDieSprite.set_frame(opponent_die-1)
+		opponent_die = die
+		opponentDieSprite.set_frame(die-1)
 		opponentDieSprite.visible = true
-		
-		
-		await get_tree().create_timer(1.5).timeout
-		
-		_opponent_action()
 
 #places the current die roll into the next available slot (dummyAI)
 func _opponent_action():
@@ -185,13 +183,13 @@ func _onGridUpdate(key):
 		_check_overlap(key, player_die)
 		_board_update("player")
 		player_dice.remove_at(0)
-		_turn_update()
+		$StateMachine/playerturn.board_update(false)
 		
 	elif player_turn == false:
 		oppBoardState[key]=opponent_die
 		_check_overlap(key, opponent_die)
 		_board_update("opp")
-		_turn_update()
+		$StateMachine/opponentturn.board_update(false)
 
 #updates the board visuals
 func _board_update(who):
@@ -404,7 +402,9 @@ func _reset_boards():
 		"A3":0,
 		"B3":0,
 		"C3":0}
-	player_dice = PlayerData.player_inventory
+	player_dice = PlayerData.player_inventory.duplicate(true)
+	print(PlayerData.player_inventory)
+	print(player_dice)
 	playerDieSprite.visible = false
 	opponentDieSprite.visible = false
 	player_turn = null
@@ -423,10 +423,10 @@ func _reset_boards():
 	$UIItems/NextRoundButton.visible = false
 	$UIItems/NextRoundButton.disconnect("pressed",_reset_boards)
 	round_over = false
-	_coin_flip()
+	#_coin_flip()
 #TODO: this turn_update fails on a game ended by the opponent, array isn't refilling
 #Invalid get index '0' on base 'Array'
-	_turn_update()
+	#_turn_update()
 
 #disable the pan buttons
 func _disable_bad_buttons():
