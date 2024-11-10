@@ -111,6 +111,7 @@ func _ready():
 	$GameStateMachine/playerturn.connect("toggle_action",_toggle_player_action)
 	$GameStateMachine/opponentturn.connect("toggle_action",_toggle_player_action)
 	$GameStateMachine/opponentturn.connect("opponent_action",_opponent_action)
+	$GameStateMachine/scoring.connect("score_check",_score_check)
 	
 	#Board signals
 	$PlayerBoard/Board.connect("gridUpdate",_onGridUpdate)
@@ -412,7 +413,7 @@ func _reset_boards():
 	$UIItems/NextRoundButton.visible = false
 	$UIItems/NextRoundButton.disconnect("pressed",_reset_boards)
 	round_over = false
-	#_coin_flip()
+	$GameStateMachine/scoring.next_round()
 #TODO: this turn_update fails on a game ended by the opponent, array isn't refilling
 #Invalid get index '0' on base 'Array'
 
