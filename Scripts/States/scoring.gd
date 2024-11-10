@@ -1,6 +1,8 @@
 extends State
 class_name scoring
 
-func Enter():
+func enter():
 	print("scoring")
 	
+func exit():
+	pass

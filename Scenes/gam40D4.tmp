@@ -254,26 +254,26 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="GameStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("4_f8vib")
 initial_state = NodePath("coinflip")
 
-[node name="coinflip" type="Node" parent="GameStateMachine"]
+[node name="coinflip" type="Node" parent="StateMachine"]
 script = ExtResource("5_8lcy6")
 
-[node name="scoring" type="Node" parent="GameStateMachine"]
+[node name="scoring" type="Node" parent="StateMachine"]
 script = ExtResource("7_ldea3")
 
-[node name="playerturn" type="Node" parent="GameStateMachine"]
+[node name="playerturn" type="Node" parent="StateMachine"]
 script = ExtResource("6_nhdsa")
 
-[node name="opponentturn" type="Node" parent="GameStateMachine"]
+[node name="opponentturn" type="Node" parent="StateMachine"]
 script = ExtResource("8_jyljp")
 
-[node name="PlayerStates" type="Node" parent="GameStateMachine"]
+[node name="PlayerStates" type="Node" parent="StateMachine"]
 script = ExtResource("9_ct6ia")
 
-[node name="CoroutineWrapper" type="Node" parent="GameStateMachine"]
+[node name="CoroutineWrapper" type="Node" parent="StateMachine"]
 script = ExtResource("10_6jmnl")
 
 [connection signal="pressed" from="UIItems/Cheat" to="." method="_on_cheat_pressed"]

@@ -1,13 +1,13 @@
-extends Node
-class State extends CoroutineWrapper:
+extends CoroutineWrapper
+class_name State
 
-	signal Transitioned
+signal Transitioned
 
-	func enter():
-		pass
+func enter():
+	pass
 	
-	func exit():
-		pass
+func exit():
+	pass
 	
-	func update(_delta: float):
-		pass
+func update(_delta: float):
+	pass

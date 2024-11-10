@@ -68,7 +68,6 @@ extends Control
 	"A3":$OpponentBoard/Board/A3/Button/dicesprite,
 	"B3":$OpponentBoard/Board/B3/Button/dicesprite,
 	"C3":$OpponentBoard/Board/C3/Button/dicesprite }
-
 @onready var playerInvSprites = {
 	0:$GridContainer/Panel/Button/dicesprite,
 	1:$GridContainer/Panel2/Button/dicesprite,
@@ -80,11 +79,9 @@ extends Control
 	7:$GridContainer/Panel8/Button/dicesprite,
 	8:$GridContainer/Panel9/Button/dicesprite }
 
-
 #game variables
 var player_turn = null
 var round_over = false
-
 
 var player_die: int
 var player_dice: Array = PlayerData.player_inventory.duplicate(true)
@@ -107,31 +104,31 @@ func _ready():
 	_inv_board_update()
 	
 	#State signals
-	$StateMachine/playerturn.connect("update_die",_update_die)
-	$StateMachine/opponentturn.connect("update_die",_update_die)
-	$StateMachine/playerturn.connect("turn_track",_turn_track)
-	$StateMachine/opponentturn.connect("turn_track",_turn_track)
-	$StateMachine/playerturn.connect("toggle_action",_toggle_player_action)
-	$StateMachine/opponentturn.connect("toggle_action",_toggle_player_action)
+	$GameStateMachine/playerturn.connect("update_die",_update_die)
+	$GameStateMachine/opponentturn.connect("update_die",_update_die)
+	$GameStateMachine/playerturn.connect("turn_track",_turn_track)
+	$GameStateMachine/opponentturn.connect("turn_track",_turn_track)
+	$GameStateMachine/playerturn.connect("toggle_action",_toggle_player_action)
+	$GameStateMachine/opponentturn.connect("toggle_action",_toggle_player_action)
+	$GameStateMachine/opponentturn.connect("opponent_action",_opponent_action)
+	
+	#Board signals
 	$PlayerBoard/Board.connect("gridUpdate",_onGridUpdate)
 	$OpponentBoard/Board.connect("gridUpdate",_onGridUpdate)
-	$StateMachine/opponentturn.connect("opponent_action",_opponent_action)
 	
 	
+	#UI text fields
 	$UIItems/php.text = ("Player HP:" + str(player_hp))
 	$UIItems/ohp.text = ("Opponent HP:" + str(opponent_hp))
 
-#updates local player turn track var for now
-#TODO this feels like it'll be redundant with states
+#updates local player turn track var and UI
 func _turn_track(player):
 	if player == "player":
 		player_turn = true
 		turn.text = "Player Turn"
-
 	else:
 		player_turn = false
 		turn.text = "Opponent Turn"
-
 
 #this looks like the side boards update (currently it doesn't look like it removes the first item properly
 #would love to get this called via the playerstate - maybe through it's exit?
@@ -143,37 +140,19 @@ func _inv_board_update():
 		else:
 			playerInvSprites[key].visible = false
 
-#checks if player_turn is defined, if not, checks for coin_flip value and sets turn.
-#TODO need to go through this and see what can be shunted to the playerstates
-func _turn_update():
-	_inv_board_update()
-	#if player_turn == true:
-		#turn.text = "Opponent Turn"
-		##_toggle_player_action()
-		###_toggle_opp_action()
-		##player_turn = false
-		##playerDieSprite.visible = false
-		###if round_over == false:
-			###_dice_roll(player_dice[0])
-	#else:
-		#turn.text = "Player Turn"
-		###_toggle_opp_action()
-		##_toggle_player_action()
-		##player_turn = true
-		##opponentDieSprite.visible = false
-		###if round_over == false:
-			###_dice_roll(player_dice[0])
-
 #updates players current die var and the pan with dice_roll result from PlayerStates
+#makes the die pan visible/invisible on update based on player turn
 func _update_die(player,die):
 	if player == "player":
 		player_die = die
 		playerDieSprite.set_frame(die-1)
 		playerDieSprite.visible = true
+		opponentDieSprite.visible = false
 	else:
 		opponent_die = die
 		opponentDieSprite.set_frame(die-1)
 		opponentDieSprite.visible = true
+		playerDieSprite.visible = false
 
 #places the current die roll into the next available slot (dummyAI)
 func _opponent_action():
@@ -189,13 +168,13 @@ func _onGridUpdate(key):
 		_check_overlap(key, player_die)
 		_board_update("player")
 		player_dice.remove_at(0)
-		$StateMachine/playerturn.board_updated(false)
+		$GameStateMachine/playerturn.board_updated(false)
 		
 	elif player_turn == false:
 		oppBoardState[key]=opponent_die
 		_check_overlap(key, opponent_die)
 		_board_update("opp")
-		$StateMachine/opponentturn.board_updated(false)
+		$GameStateMachine/opponentturn.board_updated(false)
 
 #updates the board visuals
 func _board_update(who):
@@ -227,8 +206,9 @@ func _toggle_player_action():
 				playerBoardFull += 1
 			else:
 				playerBoardButtons[key].disabled = false
+		$GameStateMachine/playerturn.board_updated(null)
 		if (playerBoardFull == 9):
-			_on_round_over()
+			$GameStateMachine/playerturn.board_updated(true)
 	elif player_turn == false:
 		print("player input disabled.")
 		var oppBoardFull = 0
@@ -238,8 +218,9 @@ func _toggle_player_action():
 			else:
 				oppBoardButtons[key].disabled = true
 				oppBoardFull += 1
+		$GameStateMachine/opponentturn.board_updated(null)
 		if (oppBoardFull == 9):
-			_on_round_over()
+			$GameStateMachine/opponentturn.board_updated(true)
 
 #toggles round over bool, clears the die for both players, runs score check
 func _on_round_over():
@@ -434,7 +415,6 @@ func _reset_boards():
 	#_coin_flip()
 #TODO: this turn_update fails on a game ended by the opponent, array isn't refilling
 #Invalid get index '0' on base 'Array'
-	#_turn_update()
 
 #disable the pan buttons
 func _disable_bad_buttons():
