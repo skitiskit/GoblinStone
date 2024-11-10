@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b78pvtbmqfxb8"]
+[gd_scene load_steps=11 format=3 uid="uid://b78pvtbmqfxb8"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_85ay0"]
 [ext_resource type="PackedScene" uid="uid://dkishjne3o4xg" path="res://Scenes/BoardPieces/board.tscn" id="1_bdg8l"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Scripts/States/scoring.gd" id="7_ldea3"]
 [ext_resource type="Script" path="res://Scripts/States/opponentturn.gd" id="8_jyljp"]
 [ext_resource type="Script" path="res://Scripts/States/PlayerStates.gd" id="9_ct6ia"]
+[ext_resource type="Script" path="res://Scripts/States/CoroutineWrapper.gd" id="10_6jmnl"]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -271,6 +272,9 @@ script = ExtResource("8_jyljp")
 
 [node name="PlayerStates" type="Node" parent="StateMachine"]
 script = ExtResource("9_ct6ia")
+
+[node name="CoroutineWrapper" type="Node" parent="StateMachine"]
+script = ExtResource("10_6jmnl")
 
 [connection signal="pressed" from="UIItems/Cheat" to="." method="_on_cheat_pressed"]
 [connection signal="pressed" from="UIItems/BestButton" to="." method="_on_best_button_pressed"]

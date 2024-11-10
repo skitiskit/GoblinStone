@@ -1,13 +1,13 @@
 extends Node
-class_name State
+class State extends CoroutineWrapper:
 
-signal Transitioned
+	signal Transitioned
 
-func enter():
-	pass
+	func enter():
+		pass
 	
-func exit():
-	pass
+	func exit():
+		pass
 	
-func update(_delta: float):
-	pass
+	func update(_delta: float):
+		pass

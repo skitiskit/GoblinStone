@@ -106,30 +106,35 @@ func _ready():
 	_disable_bad_buttons()
 	_inv_board_update()
 	
+	#State signals
 	$StateMachine/playerturn.connect("update_die",_update_die)
 	$StateMachine/opponentturn.connect("update_die",_update_die)
 	$StateMachine/playerturn.connect("turn_track",_turn_track)
 	$StateMachine/opponentturn.connect("turn_track",_turn_track)
 	$StateMachine/playerturn.connect("toggle_action",_toggle_player_action)
-	
+	$StateMachine/opponentturn.connect("toggle_action",_toggle_player_action)
 	$PlayerBoard/Board.connect("gridUpdate",_onGridUpdate)
 	$OpponentBoard/Board.connect("gridUpdate",_onGridUpdate)
+	$StateMachine/opponentturn.connect("opponent_action",_opponent_action)
+	
 	
 	$UIItems/php.text = ("Player HP:" + str(player_hp))
 	$UIItems/ohp.text = ("Opponent HP:" + str(opponent_hp))
-	
-	_turn_update()
 
+#updates local player turn track var for now
+#TODO this feels like it'll be redundant with states
 func _turn_track(player):
 	if player == "player":
-		print("player turn")
 		player_turn = true
-		_toggle_player_action()
-	else:
-		print("opponent turn")
-		player_turn = false
-		_toggle_player_action()
+		turn.text = "Player Turn"
 
+	else:
+		player_turn = false
+		turn.text = "Opponent Turn"
+
+
+#this looks like the side boards update (currently it doesn't look like it removes the first item properly
+#would love to get this called via the playerstate - maybe through it's exit?
 func _inv_board_update():
 	for key in playerInvSprites:
 		if player_dice.size()-1 > key or player_dice.size()-1 == key:
@@ -139,24 +144,25 @@ func _inv_board_update():
 			playerInvSprites[key].visible = false
 
 #checks if player_turn is defined, if not, checks for coin_flip value and sets turn.
+#TODO need to go through this and see what can be shunted to the playerstates
 func _turn_update():
 	_inv_board_update()
-	if player_turn == true:
-		turn.text = "Opponent Turn"
-		_toggle_player_action()
-		#_toggle_opp_action()
-		player_turn = false
-		playerDieSprite.visible = false
-		#if round_over == false:
-			#_dice_roll(player_dice[0])
-	else:
-		turn.text = "Player Turn"
-		#_toggle_opp_action()
-		_toggle_player_action()
-		player_turn = true
-		opponentDieSprite.visible = false
-		#if round_over == false:
-			#_dice_roll(player_dice[0])
+	#if player_turn == true:
+		#turn.text = "Opponent Turn"
+		##_toggle_player_action()
+		###_toggle_opp_action()
+		##player_turn = false
+		##playerDieSprite.visible = false
+		###if round_over == false:
+			###_dice_roll(player_dice[0])
+	#else:
+		#turn.text = "Player Turn"
+		###_toggle_opp_action()
+		##_toggle_player_action()
+		##player_turn = true
+		##opponentDieSprite.visible = false
+		###if round_over == false:
+			###_dice_roll(player_dice[0])
 
 #updates players current die var and the pan with dice_roll result from PlayerStates
 func _update_die(player,die):
@@ -183,13 +189,13 @@ func _onGridUpdate(key):
 		_check_overlap(key, player_die)
 		_board_update("player")
 		player_dice.remove_at(0)
-		$StateMachine/playerturn.board_update(false)
+		$StateMachine/playerturn.board_updated(false)
 		
 	elif player_turn == false:
 		oppBoardState[key]=opponent_die
 		_check_overlap(key, opponent_die)
 		_board_update("opp")
-		$StateMachine/opponentturn.board_update(false)
+		$StateMachine/opponentturn.board_updated(false)
 
 #updates the board visuals
 func _board_update(who):
@@ -213,6 +219,7 @@ func _board_update(who):
 #on counter reaching 9 board if full, trigger round over
 func _toggle_player_action():
 	if player_turn == true:
+		print("player input enabled.")
 		var playerBoardFull = 0
 		for key in playerBoardButtons:
 			if (playerBoardState[key] != 0):
@@ -223,6 +230,7 @@ func _toggle_player_action():
 		if (playerBoardFull == 9):
 			_on_round_over()
 	elif player_turn == false:
+		print("player input disabled.")
 		var oppBoardFull = 0
 		for key in oppBoardButtons:
 			if (oppBoardState[key] == 0):

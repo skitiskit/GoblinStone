@@ -9,16 +9,24 @@ var opponent_die: int
 var player_name = "opponent"
 
 func enter():
-	dice_roll(player_name,opponent_die,opponent_dice[0])
 	turn_track.emit(player_name)
-	toggle_action.emit(player_name)
+	await Game._turn_track()
+	toggle_action.emit()
 	
-func board_update(end):
+	dice_roll(player_name,opponent_die,opponent_dice[0])
+
+	opponent_action.emit()
+	
+func board_updated(end):
 	print("board update")
 	if end == true:
 		exit()
+		print("transitioned scoring")
 		Transitioned.emit(self,"scoring")
 	else:
 		exit()
+		print("transitioned playerturn")
 		Transitioned.emit(self,"playerturn")
-		
+
+func exit():
+	pass
