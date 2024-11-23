@@ -223,13 +223,6 @@ func _toggle_player_action():
 		if (oppBoardFull == 9):
 			$GameStateMachine/opponentturn.board_updated(true)
 
-#toggles round over bool, clears the die for both players, runs score check
-func _on_round_over():
-	round_over = true
-	player_die = 0
-	opponent_die = 0
-	_score_check()
-
 #check for overlapping values in columns between players' boards
 func _check_overlap(played_key,played_value):
 	var column_letter = played_key.substr(0,1)
@@ -254,26 +247,26 @@ func _check_overlap(played_key,played_value):
 func _score_check():
 	var player = playerBoardState.values()
 	var playerA = [player[0],player[3],player[6]]
-	var playerScoreA = _multiplier_check(playerA)
+	var playerScoreA = await _multiplier_check(playerA)
 	$UIItems/ColA.text = str(playerScoreA)
 	var playerB = [player[1],player[4],player[7]]
-	var playerScoreB = _multiplier_check(playerB)
+	var playerScoreB = await _multiplier_check(playerB)
 	$UIItems/ColB.text = str(playerScoreB)
 	var playerC = [player[2],player[5],player[8]]
-	var playerScoreC = _multiplier_check(playerC)
+	var playerScoreC = await _multiplier_check(playerC)
 	$UIItems/ColC.text = str(playerScoreC)
 	var playerTotal = playerScoreA+playerScoreB+playerScoreC
 	$UIItems/PlayerScore.text = "Player Score:" + str(playerTotal)
 	
 	var opp = oppBoardState.values()
 	var oppA = [opp[0],opp[3],opp[6]]
-	var oppScoreA = _multiplier_check(oppA)
+	var oppScoreA = await _multiplier_check(oppA)
 	$UIItems/ColA2.text = str(oppScoreA)
 	var oppB = [opp[1],opp[4],opp[7]]
-	var oppScoreB = _multiplier_check(oppB)
+	var oppScoreB = await _multiplier_check(oppB)
 	$UIItems/ColB2.text = str(oppScoreB)
 	var oppC = [opp[2],opp[5],opp[8]]
-	var oppScoreC = _multiplier_check(oppC)
+	var oppScoreC = await _multiplier_check(oppC)
 	$UIItems/ColC2.text = str(oppScoreC)
 	var oppTotal = oppScoreA+oppScoreB+oppScoreC
 	$UIItems/OpponentScore.text = "Opponent Score:" + str(oppTotal)

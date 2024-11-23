@@ -1,3 +1,9 @@
+#Stores all the various die types and allows for the animation of thier sprites
+#TODO give new specified sprites to each dice type
+	#currently only plain D6 exists
+#TODO can I call animations from here maybe? to do my rolls?
+#TODO you're going to load all the sprite sheets into memory on load aren't you 
+#fine, do it, but you know there's probably a smarter way to do this
 extends Node
 
 var d6 = [1,2,3,4,5,6]
