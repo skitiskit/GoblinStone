@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Goblin Stone"
 run/main_scene="res://Scenes/start_menu.tscn"
-config/features=PackedStringArray("4.2", "Forward Plus")
+config/features=PackedStringArray("4.3", "Forward Plus")
 
 [autoload]
 
@@ -20,6 +20,7 @@ Global="*res://Scenes/global.tscn"
 GlobalData="*res://Scripts/global.gd"
 PlayerData="*res://Scripts/PlayerData.gd"
 Dice="*res://Scripts/Dice.gd"
+OpponentData="*res://Scripts/OpponentData.gd"
 
 [display]
 

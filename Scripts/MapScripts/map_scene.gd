@@ -15,7 +15,7 @@ func _on_status_menu_pressed():
 func _on_quit_pressed():
 	get_tree().quit()
 
-#I think there's probably a better way to do this
+#this is all placeholder, going to change how levels work in further design
 func _on_level_1_pressed():
 	Global.emit_signal("gamestate", "level1")
 
@@ -26,7 +26,7 @@ func _on_level_3_pressed():
 	Global.emit_signal("gamestate", "level3")
 
 func _on_level_4_pressed():
-	Global.emit_signal("gamestate", "level1")
+	Global.emit_signal("gamestate", "level4")
 
 func _on_level_5_pressed():
-	Global.emit_signal("gamestate", "level1")
+	Global.emit_signal("gamestate", "level5")
