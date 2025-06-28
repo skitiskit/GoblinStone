@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Goblin Stone"
 run/main_scene="res://Scenes/start_menu.tscn"
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/features=PackedStringArray("4.4", "Forward Plus")
 
 [autoload]
 
@@ -30,3 +30,7 @@ window/size/viewport_height=1080
 [dotnet]
 
 project/assembly_name="Goblin Stone"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")

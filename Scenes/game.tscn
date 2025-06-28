@@ -1,15 +1,15 @@
 [gd_scene load_steps=11 format=3 uid="uid://b78pvtbmqfxb8"]
 
-[ext_resource type="Script" path="res://Scripts/game.gd" id="1_85ay0"]
+[ext_resource type="Script" uid="uid://cbrcjid5wl7mp" path="res://Scripts/game.gd" id="1_85ay0"]
 [ext_resource type="PackedScene" uid="uid://dkishjne3o4xg" path="res://Scenes/BoardPieces/board.tscn" id="1_bdg8l"]
 [ext_resource type="PackedScene" uid="uid://dbnha4yeun24" path="res://Scenes/BoardPieces/DicePanel.tscn" id="2_ft8uv"]
-[ext_resource type="Script" path="res://Scripts/States/StateMachine.gd" id="4_f8vib"]
-[ext_resource type="Script" path="res://Scripts/States/GameStates/coinflip.gd" id="5_8lcy6"]
-[ext_resource type="Script" path="res://Scripts/States/GameStates/playerturn.gd" id="6_nhdsa"]
-[ext_resource type="Script" path="res://Scripts/States/GameStates/scoring.gd" id="7_ldea3"]
-[ext_resource type="Script" path="res://Scripts/States/GameStates/opponentturn.gd" id="8_jyljp"]
-[ext_resource type="Script" path="res://Scripts/States/GameStates/PlayerStates.gd" id="9_ct6ia"]
-[ext_resource type="Script" path="res://Scripts/States/CoroutineWrapper.gd" id="10_6jmnl"]
+[ext_resource type="Script" uid="uid://b7tpiq1rvt6vq" path="res://Scripts/States/StateMachine.gd" id="4_f8vib"]
+[ext_resource type="Script" uid="uid://cw6n8trihg4iw" path="res://Scripts/States/GameStates/coinflip.gd" id="5_8lcy6"]
+[ext_resource type="Script" uid="uid://brf7jc1s03cmq" path="res://Scripts/States/GameStates/playerturn.gd" id="6_nhdsa"]
+[ext_resource type="Script" uid="uid://3ae1ptf15m8v" path="res://Scripts/States/GameStates/scoring.gd" id="7_ldea3"]
+[ext_resource type="Script" uid="uid://b20sbe3wgupjp" path="res://Scripts/States/GameStates/opponentturn.gd" id="8_jyljp"]
+[ext_resource type="Script" uid="uid://gkynd5ik7vef" path="res://Scripts/States/GameStates/PlayerStates.gd" id="9_ct6ia"]
+[ext_resource type="Script" uid="uid://dnc6yutcvqht8" path="res://Scripts/States/CoroutineWrapper.gd" id="10_6jmnl"]
 
 [node name="Game" type="Control"]
 layout_mode = 3

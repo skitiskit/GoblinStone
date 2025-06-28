@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://dbnha4yeun24"]
 
-[ext_resource type="Script" path="res://Scripts/BoardScripts/DicePanel.gd" id="1_fweb7"]
+[ext_resource type="Script" uid="uid://dre8g1qr0ljyk" path="res://Scripts/BoardScripts/DicePanel.gd" id="1_fweb7"]
 [ext_resource type="Texture2D" uid="uid://qdpuy6grplu5" path="res://Assets/D6-Sprites-Sheet.png" id="2_6utb0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tf2lk"]

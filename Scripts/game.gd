@@ -100,10 +100,11 @@ var player_hp = PlayerData.player_hp
 #on ready disable the pans from being interactable, flip a coin, update the turn
 #connect to the player's boards grid updates function, and print HPs to labels
 func _ready():
-	_disable_bad_buttons()
+	_disable_buttons()
 	_inv_board_update()
 	
 	#State signals
+	$GameStateMachine/playerturn.connect("inventory_update",_inv_board_update)
 	$GameStateMachine/playerturn.connect("update_die",_update_die)
 	$GameStateMachine/opponentturn.connect("update_die",_update_die)
 	$GameStateMachine/playerturn.connect("turn_track",_turn_track)
@@ -112,6 +113,8 @@ func _ready():
 	$GameStateMachine/opponentturn.connect("toggle_action",_toggle_player_action)
 	$GameStateMachine/opponentturn.connect("opponent_action",_opponent_action)
 	$GameStateMachine/scoring.connect("score_check",_score_check)
+	$GameStateMachine/scoring.connect("board_reset",_board_reset)
+#	$GameStateMachine/rewardstate.connect("reward_display",_reward_display)
 	
 	#Board signals
 	$PlayerBoard/Board.connect("gridUpdate",_onGridUpdate)
@@ -132,7 +135,6 @@ func _turn_track(player):
 		turn.text = "Opponent Turn"
 
 #this looks like the side boards update (currently it doesn't look like it removes the first item properly
-#would love to get this called via the playerstate - maybe through it's exit?
 func _inv_board_update():
 	for key in playerInvSprites:
 		if player_dice.size()-1 > key or player_dice.size()-1 == key:
@@ -156,6 +158,7 @@ func _update_die(player,die):
 		playerDieSprite.visible = false
 
 #places the current die roll into the next available slot (dummyAI)
+#TODO figure out what a better AI looks like, maybe sort it out outside the game script
 func _opponent_action():
 	for key in oppBoardButtons:
 		if (oppBoardState[key] == 0):
@@ -169,23 +172,23 @@ func _onGridUpdate(key):
 		_check_overlap(key, player_die)
 		_board_update("player")
 		player_dice.remove_at(0)
-		$GameStateMachine/playerturn.board_updated(false)
 		
 	elif player_turn == false:
 		oppBoardState[key]=opponent_die
 		_check_overlap(key, opponent_die)
 		_board_update("opp")
-		$GameStateMachine/opponentturn.board_updated(false)
 
-#updates the board visuals
+#updates the board visuals and communicates to PlayerStates when done
 func _board_update(who):
 	if who == "player":
 		for key in playerBoardButtons:
 			if playerBoardState[key] != 0:
 				playerBoardSprites[key].set_frame(playerBoardState[key]-1)
 				playerBoardSprites[key].visible = true
-			elif playerBoardState[key] == 0:
+				playerBoardButtons[key].disabled = true
+			else:
 				playerBoardSprites[key].visible = false
+		_check_round_over("player")
 	elif who == "opp":
 		for key in oppBoardButtons:
 			if oppBoardState[key] != 0:
@@ -193,35 +196,50 @@ func _board_update(who):
 				oppBoardSprites[key].visible = true
 			elif oppBoardState[key] == 0:
 				oppBoardSprites[key].visible = false
-	_inv_board_update()
+		_check_round_over("opp")
+
+#checks the current players board state, if the board is full (9) then send a board update saying to end round
+#if not, just send that the board has updated
+func _check_round_over(who):
+	if who == "player":
+		var playerBoardFull = 0
+		for key in playerBoardButtons:
+			if playerBoardState[key] != 0:
+				playerBoardFull += 1
+			else:
+				$GameStateMachine/playerturn.board_updated(false)
+		if (playerBoardFull == 9):
+			$GameStateMachine/playerturn.board_updated(true)
+	elif who == "opp":
+		var oppBoardFull = 0
+		for key in oppBoardButtons:
+			if oppBoardState[key] != 0:
+				oppBoardFull += 1
+			else:
+				$GameStateMachine/opponentturn.board_updated(false)
+		if (oppBoardFull == 9):
+			$GameStateMachine/opponentturnturn.board_updated(true)
+
 
 #loop through the playerBoardState and disable buttons, for all filled values increment counter
 #on counter reaching 9 board if full, trigger round over
+#OPTIMIZE - look at how this is functioning, I don't think I'm properly disabling buttons
+#TODO Create a full-rect ColorRect node with a MOUSE_FILTER_STOP setting and set its color opacity to 0 (fully transparent).
+#When you need to block input, enable this node (set its visible property to true).
+#When the input block is no longer needed, disable the node (set its visible property to false). 
+#BUG clicking when its not the players turn causes weird behaviours on player/opponent boards
 func _toggle_player_action():
 	if player_turn == true:
 		print("player input enabled.")
-		var playerBoardFull = 0
 		for key in playerBoardButtons:
 			if (playerBoardState[key] != 0):
 				playerBoardButtons[key].disabled = true
-				playerBoardFull += 1
 			else:
 				playerBoardButtons[key].disabled = false
-		$GameStateMachine/playerturn.board_updated(null)
-		if (playerBoardFull == 9):
-			$GameStateMachine/playerturn.board_updated(true)
 	elif player_turn == false:
 		print("player input disabled.")
-		var oppBoardFull = 0
-		for key in oppBoardButtons:
-			if (oppBoardState[key] == 0):
-				oppBoardButtons[key].disabled = false
-			else:
-				oppBoardButtons[key].disabled = true
-				oppBoardFull += 1
-		$GameStateMachine/opponentturn.board_updated(null)
-		if (oppBoardFull == 9):
-			$GameStateMachine/opponentturn.board_updated(true)
+		for key in playerBoardButtons:
+			playerBoardButtons[key].disabled = true
 
 #check for overlapping values in columns between players' boards
 func _check_overlap(played_key,played_value):
@@ -301,16 +319,7 @@ func _hp_update(player,opp):
 			$UIItems/php.text = ("Player HP:" + str(player_hp))
 			$UIItems/ohp.text = ("Opponent HP:" + str(opponent_hp))
 			
-			PlayerData.player_progress = PlayerData.player_progress +1
-			PlayerData.wins = PlayerData.wins + 1
-			
-			if PlayerData.wins == 5:
-				_you_are_the_best()
-				return
-			
-			await get_tree().create_timer(2).timeout
-			
-			Global.goto_scene("res://Scenes/map_scene.tscn")
+			_update_PlayerData("win")
 			return
 	elif diff <= 0:
 		player_hp = player_hp + diff
@@ -320,22 +329,39 @@ func _hp_update(player,opp):
 			$UIItems/php.text = ("Player HP:" + str(player_hp))
 			$UIItems/ohp.text = ("Opponent HP:" + str(opponent_hp))
 			
-			PlayerData.player_hp = 150
-			PlayerData.player_progress = 0
-			
-			await get_tree().create_timer(2).timeout
-			
-			Global.goto_scene("res://Scenes/start_menu.tscn")
-			
+			_update_PlayerData("lose")
 			return
 	$UIItems/php.text = ("Player HP:" + str(player_hp))
 	$UIItems/ohp.text = ("Opponent HP:" + str(opponent_hp))
 	_next_round_enable()
 
+#HACK should this just be a function that goes to the reward state?
+func _update_PlayerData(result):
+	if result == "win":
+		PlayerData.player_progress = PlayerData.player_progress +1
+		PlayerData.wins = PlayerData.wins + 1
+		if PlayerData.wins == 5:
+					_you_are_the_best()
+					return
+	else:
+		PlayerData.player_hp = 150
+		PlayerData.player_progress = 0
+		_retry_enable()
+
+#OPTIMIZE enter reward state function - should be doing this through scoring
+func _enter_reward_state():
+	$GameStateMachine/rewardstate.enter()
+
+func _reward_display(_reward1,_reward2,_reward3):
+	#TODO create reward UI and display it
+	pass
 #enable next round button and hook up signal to board reset
 func _next_round_enable():
 	$UIItems/NextRoundButton.visible = true
-	$UIItems/NextRoundButton.connect("pressed",_reset_boards)
+	$UIItems/NextRoundButton.connect("pressed",_next_round)
+
+func _next_round():
+	$GameStateMachine/scoring.next_round()
 
 #enable retry button and hook up signal to board and hp reset
 func _retry_enable():
@@ -351,13 +377,15 @@ func _game_over(result):
 func _reset():
 	player_hp = 150
 	opponent_hp = 150
-	_reset_boards()
+	_board_reset()
 	$UIItems/RetryButton.visible = false
 	$UIItems/RetryButton.disconnect("pressed",_reset)
+	#HACK - shouldn't do a state switch like this
+	$GameStateMachine/coinflip.enter()
 
 #reset both board dictionaries, and score columns to neutral, reset player turn to null, 
 #and flip a coin/update the turn
-func _reset_boards():
+func _board_reset():
 	playerBoardState = {"A1":0,
 		"B1":0,
 		"C1":0,
@@ -404,16 +432,18 @@ func _reset_boards():
 	$UIItems/ColB2.text = "---"
 	$UIItems/ColC2.text = "---"
 	$UIItems/NextRoundButton.visible = false
-	$UIItems/NextRoundButton.disconnect("pressed",_reset_boards)
+	$UIItems/NextRoundButton.disconnect("pressed",_next_round)
 	round_over = false
-	$GameStateMachine/scoring.next_round()
-#TODO: this turn_update fails on a game ended by the opponent, array isn't refilling
-#Invalid get index '0' on base 'Array'
 
-#disable the pan buttons
-func _disable_bad_buttons():
+#disable the pan buttons and initial board buttons.
+#going to enable via turns
+func _disable_buttons():
 	playerPan.disabled = true
 	opponentPan.disabled = true
+	for key in playerBoardButtons:
+		playerBoardButtons[key].disabled = true
+	for key in playerBoardButtons:
+		oppBoardButtons[key].disabled = true
 
 func _you_are_the_best():
 	$UIItems/BestButton.visible = true

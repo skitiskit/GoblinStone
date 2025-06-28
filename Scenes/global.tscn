@@ -1,14 +1,14 @@
 [gd_scene load_steps=10 format=3 uid="uid://pvt0f3eklbmn"]
 
-[ext_resource type="Script" path="res://Scripts/global.gd" id="1_k466k"]
-[ext_resource type="Script" path="res://Scripts/PlayerData.gd" id="2_jh703"]
-[ext_resource type="Script" path="res://Scripts/Dice.gd" id="3_ckfry"]
-[ext_resource type="Script" path="res://Scripts/States/StateMachine.gd" id="4_gsbcy"]
-[ext_resource type="Script" path="res://Scripts/States/MetaStates/startstate.gd" id="5_52qcn"]
-[ext_resource type="Script" path="res://Scripts/States/MetaStates/mapstate.gd" id="6_phhg5"]
-[ext_resource type="Script" path="res://Scripts/States/MetaStates/gamestate.gd" id="7_txhvt"]
-[ext_resource type="Script" path="res://Scripts/States/MetaStates/rewardstate.gd" id="8_cprf0"]
-[ext_resource type="Script" path="res://Scripts/States/MetaStates/gameoverstate.gd" id="9_crv8d"]
+[ext_resource type="Script" uid="uid://bu66nlb6g7jkn" path="res://Scripts/global.gd" id="1_k466k"]
+[ext_resource type="Script" uid="uid://o68jdd6yk4ny" path="res://Scripts/PlayerData.gd" id="2_jh703"]
+[ext_resource type="Script" uid="uid://b2nvp7w82u3o4" path="res://Scripts/Dice.gd" id="3_ckfry"]
+[ext_resource type="Script" uid="uid://b7tpiq1rvt6vq" path="res://Scripts/States/StateMachine.gd" id="4_gsbcy"]
+[ext_resource type="Script" uid="uid://cjudpht2wanc" path="res://Scripts/States/MetaStates/startstate.gd" id="5_52qcn"]
+[ext_resource type="Script" uid="uid://c0kp3bjq2ij2q" path="res://Scripts/States/MetaStates/mapstate.gd" id="6_phhg5"]
+[ext_resource type="Script" uid="uid://d1g362kflwkvu" path="res://Scripts/States/MetaStates/gamestate.gd" id="7_txhvt"]
+[ext_resource type="Script" uid="uid://d4gng1e084qvg" path="res://Scripts/States/MetaStates/rewardstate.gd" id="8_cprf0"]
+[ext_resource type="Script" uid="uid://dt4ksqahrsuly" path="res://Scripts/States/MetaStates/gameoverstate.gd" id="9_crv8d"]
 
 [node name="Global" type="Node"]
 script = ExtResource("1_k466k")

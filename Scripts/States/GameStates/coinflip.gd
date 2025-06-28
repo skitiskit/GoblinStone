@@ -4,6 +4,7 @@ class_name coinflip
 var coin_flip: int
 
 func enter():
+	print ("===Coin Flip State Entered===")
 	_coin_flip()
 
 func _coin_flip():
@@ -13,12 +14,10 @@ func _coin_flip():
 	
 func update(_delta: float):
 	if coin_flip == 0:
-		print("transitioned player")
 		Transitioned.emit(self, "playerturn")
 	else:
-		print("transitioned opponent")
 		Transitioned.emit(self, "opponentturn")
+
+func exit():
+	print ("===Coin Flip State Exited===")
 		
-
-
-

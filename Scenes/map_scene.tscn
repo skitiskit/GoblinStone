@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://by54522p728yp"]
 
-[ext_resource type="Script" path="res://Scripts/MapScripts/map_scene.gd" id="1_i7jib"]
+[ext_resource type="Script" uid="uid://tpa8bf72pby4" path="res://Scripts/MapScripts/map_scene.gd" id="1_i7jib"]
 [ext_resource type="Texture2D" uid="uid://bxtj357jkgc16" path="res://Assets/1000_F_702604450_t14IuGZyjnU3tTx2gv0fJoKILUGYlGrF.jpg" id="1_u0e0m"]
 [ext_resource type="Texture2D" uid="uid://dkoor4t17bbu7" path="res://Assets/GoblinA1.png" id="2_a7cf4"]
 [ext_resource type="Texture2D" uid="uid://qdpuy6grplu5" path="res://Assets/D6-Sprites-Sheet.png" id="4_xr31q"]
