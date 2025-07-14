@@ -111,6 +111,8 @@ func _ready():
 	$GameStateMachine/opponentturn.connect("turn_track",_turn_track)
 	$GameStateMachine/playerturn.connect("toggle_action",_toggle_player_action)
 	$GameStateMachine/opponentturn.connect("toggle_action",_toggle_player_action)
+	$GameStateMachine/playerturn.connect("touch_block",_touch_block)
+	$GameStateMachine/opponentturn.connect("touch_block",_touch_block)
 	$GameStateMachine/opponentturn.connect("opponent_action",_opponent_action)
 	$GameStateMachine/scoring.connect("score_check",_score_check)
 	$GameStateMachine/scoring.connect("board_reset",_board_reset)
@@ -133,6 +135,12 @@ func _turn_track(player):
 	else:
 		player_turn = false
 		turn.text = "Opponent Turn"
+
+func _touch_block(toggle):
+	if toggle == true:
+		$UIItems/ColorRect.visible = true
+	else:
+		$UIItems/ColorRect.visible = false
 
 #this looks like the side boards update (currently it doesn't look like it removes the first item properly
 func _inv_board_update():
@@ -220,24 +228,16 @@ func _check_round_over(who):
 		if (oppBoardFull == 9):
 			$GameStateMachine/opponentturnturn.board_updated(true)
 
-
 #loop through the playerBoardState and disable buttons, for all filled values increment counter
 #on counter reaching 9 board if full, trigger round over
-#OPTIMIZE - look at how this is functioning, I don't think I'm properly disabling buttons
-#TODO Create a full-rect ColorRect node with a MOUSE_FILTER_STOP setting and set its color opacity to 0 (fully transparent).
-#When you need to block input, enable this node (set its visible property to true).
-#When the input block is no longer needed, disable the node (set its visible property to false). 
-#BUG clicking when its not the players turn causes weird behaviours on player/opponent boards
 func _toggle_player_action():
 	if player_turn == true:
-		print("player input enabled.")
 		for key in playerBoardButtons:
 			if (playerBoardState[key] != 0):
 				playerBoardButtons[key].disabled = true
 			else:
 				playerBoardButtons[key].disabled = false
 	elif player_turn == false:
-		print("player input disabled.")
 		for key in playerBoardButtons:
 			playerBoardButtons[key].disabled = true
 
@@ -440,9 +440,10 @@ func _board_reset():
 func _disable_buttons():
 	playerPan.disabled = true
 	opponentPan.disabled = true
+	$UIItems/ColorRect.visible = !$UIItems/ColorRect.visible
 	for key in playerBoardButtons:
 		playerBoardButtons[key].disabled = true
-	for key in playerBoardButtons:
+	for key in oppBoardButtons:
 		oppBoardButtons[key].disabled = true
 
 func _you_are_the_best():

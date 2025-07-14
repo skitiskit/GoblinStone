@@ -11,6 +11,7 @@ func enter():
 	print ("===Player Turn Entered===")
 	#TODO enable inputs for the player on state enter
 	turn_track.emit(player_name)
+	touch_block.emit(false)
 	await get_tree().create_timer(1.0).timeout
 	toggle_action.emit()
 	await board_updated(null)
@@ -18,8 +19,7 @@ func enter():
 	
 	
 #understand board state transitions
-#OPTIMIZE - loggins shows board update player 3 times a turn, look into this (both player states)
-#OPTIMIZE - look into toggleplayer action as a potential cause
+#OPTIMIZE - logs shows board update player 3 times a turn, look into this (both player states) looks like boardupdate is listening in both states regardless of active state
 func board_updated(end):
 	print("board update player")
 	if end == true:

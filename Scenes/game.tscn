@@ -210,6 +210,16 @@ offset_bottom = -417.0
 scale = Vector2(5, 5)
 text = "YOU ARE THE BEST!"
 
+[node name="ColorRect" type="ColorRect" parent="UIItems"]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = -587.0
+offset_top = -908.0
+offset_right = 1334.0
+offset_bottom = 169.0
+color = Color(1, 1, 1, 0)
+
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 0
 offset_left = 200.0

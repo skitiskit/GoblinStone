@@ -4,6 +4,7 @@ class_name playerstate
 signal update_die(player, die)
 signal turn_track(player)
 signal toggle_action(player)
+signal touch_block()
 
 func dice_roll(player, player_die, player_dice):
 	var dice_type = Dice.get(player_dice)

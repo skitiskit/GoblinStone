@@ -11,6 +11,7 @@ var player_name = "opponent"
 func enter():
 	print ("===Opponent Turn Entered===")
 	turn_track.emit(player_name)
+	touch_block.emit(true)
 	await get_tree().create_timer(1.0).timeout
 	dice_roll(player_name,opponent_die,opponent_dice[0])
 	await get_tree().create_timer(1.0).timeout
@@ -29,4 +30,3 @@ func board_updated(end):
 
 func exit():
 	print ("===Opponent Turn Exited===")
-	pass
