@@ -192,14 +192,6 @@ offset_right = 714.0
 offset_bottom = -702.0
 text = "Opponent HP: "
 
-[node name="Cheat" type="Button" parent="UIItems"]
-layout_mode = 0
-offset_left = -394.0
-offset_top = -782.0
-offset_right = -335.0
-offset_bottom = -751.0
-text = "CHEAT"
-
 [node name="BestButton" type="Button" parent="UIItems"]
 visible = false
 layout_mode = 0
@@ -219,6 +211,47 @@ offset_top = -908.0
 offset_right = 1334.0
 offset_bottom = 169.0
 color = Color(1, 1, 1, 0)
+
+[node name="SettingsButton" type="Button" parent="UIItems"]
+layout_mode = 0
+offset_left = 1236.0
+offset_top = -888.0
+offset_right = 1306.0
+offset_bottom = -857.0
+text = "Settings"
+
+[node name="SettingsPanel" type="Panel" parent="UIItems"]
+visible = false
+layout_mode = 0
+offset_left = 82.0
+offset_top = -531.0
+offset_right = 658.0
+offset_bottom = -209.0
+
+[node name="ExitButton" type="Button" parent="UIItems/SettingsPanel"]
+layout_mode = 0
+offset_left = 255.0
+offset_top = 192.0
+offset_right = 292.0
+offset_bottom = 223.0
+text = "Exit
+"
+
+[node name="Cheat" type="Button" parent="UIItems/SettingsPanel"]
+layout_mode = 0
+offset_left = 246.0
+offset_top = 143.0
+offset_right = 305.0
+offset_bottom = 174.0
+text = "CHEAT"
+
+[node name="RewardPanel" type="Panel" parent="UIItems"]
+visible = false
+layout_mode = 0
+offset_left = 86.0
+offset_top = -510.0
+offset_right = 641.0
+offset_bottom = -255.0
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 0
@@ -286,5 +319,5 @@ script = ExtResource("9_ct6ia")
 [node name="CoroutineWrapper" type="Node" parent="GameStateMachine"]
 script = ExtResource("10_6jmnl")
 
-[connection signal="pressed" from="UIItems/Cheat" to="." method="_on_cheat_pressed"]
 [connection signal="pressed" from="UIItems/BestButton" to="." method="_on_best_button_pressed"]
+[connection signal="pressed" from="UIItems/SettingsPanel/Cheat" to="." method="_on_cheat_pressed"]
